@@ -1,0 +1,2 @@
+@import "tailwindcss";
+:root{color-scheme:light}body{background:#f8fafc;color:#0f172a}input,select,textarea{background:white}button{cursor:pointer}button:disabled{cursor:not-allowed}
