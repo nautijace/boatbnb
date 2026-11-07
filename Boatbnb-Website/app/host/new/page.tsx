@@ -1,0 +1,1 @@
+import NewListing from './form';export default function New(){return <main className="mx-auto max-w-3xl px-5 py-12"><h1 className="text-3xl font-bold">Add a dockside accommodation</h1><p className="mt-3 text-slate-500">Your boat must remain stationary and have marina permission for overnight guests.</p><NewListing/></main>}
