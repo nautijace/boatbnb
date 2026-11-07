@@ -1,8 +1,30 @@
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+
+type CookieToSet = {
+  name: string;
+  value: string;
+  options?: Parameters<Awaited<ReturnType<typeof cookies>>['set']>[2];
+};
+
 export async function serverDb() {
- const jar=await cookies();
- return createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!,process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,{
-  cookies:{getAll(){return jar.getAll()},setAll(values){try{values.forEach(({name,value,options})=>jar.set(name,value,options))}catch{ /* server component */ }}}
- });
+  const jar = await cookies();
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return jar.getAll();
+        },
+        setAll(values: CookieToSet[]) {
+          try {
+            values.forEach(({ name, value, options }) => jar.set(name, value, options));
+          } catch {
+            // Cookie writes are unavailable during Server Component rendering.
+          }
+        },
+      },
+    }
+  );
 }
